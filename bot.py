@@ -6,10 +6,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 import chromedriver_autoinstaller
 
 # Automatically install ChromeDriver
-chromedriver_autoinstaller.install()
+chromedriver_path = chromedriver_autoinstaller.install()
 
 # Gmail configuration
 GMAIL_USER = "benjikialanda@gmail.com"
@@ -42,21 +44,20 @@ def login_and_check():
     global course_availability
 
     print("[LOG] Starting course availability check...")
-    from selenium.webdriver.chrome.options import Options
 
     options = Options()
     options.add_argument("--headless")  # Run in headless mode
     options.add_argument("--no-sandbox")  # Recommended for headless environments
     options.add_argument("--disable-dev-shm-usage")  # Prevent memory issues on some systems
     options.add_argument("--disable-gpu")  # Optional, good for older setups
+    options.binary_location = "/usr/bin/google-chrome"
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(service=Service(chromedriver_path), options=options)
 
     try:
         # Step 1: Log in
         driver.get("https://myinfo.lakeheadu.ca/")
         print("[LOG] Current Page: Login Page")
-        time.sleep(10)
 
         username_field = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "username"))
@@ -71,19 +72,16 @@ def login_and_check():
             EC.presence_of_element_located((By.ID, "welcome-text-container"))
         )
         print("[LOG] Current Page: Welcome Page")
-        time.sleep(10)
 
         # Navigate to course selection page
         driver.get("https://erpss.lakeheadu.ca/Student/Student/Courses")
         print("[LOG] Current Page: Course Selection Filters Page")
-        time.sleep(10)
 
         # Step 2: Set filters
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "course-catalog-result-view-type-section-label"))
         )
         print("[LOG] Selecting Term, Subject, and Academic Level...")
-        time.sleep(10)
 
         term_dropdown = Select(WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "term-id"))
