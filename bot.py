@@ -170,7 +170,7 @@ def login_and_check():
 
 def main():
     """Main function to schedule periodic checks."""
-    schedule.every(10).minutes.do(login_and_check)
+    schedule.every(5).minutes.do(login_and_check)
     #login_and_check()
     print("[LOG] Monitoring started. Press Ctrl+C to stop.")
     while True:
