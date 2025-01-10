@@ -19,4 +19,4 @@ COPY bot.py /app/bot.py
 WORKDIR /app
 
 # Run the script
-CMD ["python", "bot.py"]
+CMD ["python", "-u", "bot.py"]
