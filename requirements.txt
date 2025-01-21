@@ -1,3 +1,4 @@
 selenium
 chromedriver-autoinstaller
 schedule
+python-dotenv

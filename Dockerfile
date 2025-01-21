@@ -7,9 +7,6 @@ RUN apt-get update && apt-get install -y wget gnupg \
     && apt-get install -y ./google-chrome-stable_current_amd64.deb \
     && rm google-chrome-stable_current_amd64.deb
 
-# Install Chromedriver
-RUN pip install --no-cache-dir chromedriver-autoinstaller
-
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
