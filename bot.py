@@ -1,3 +1,4 @@
+import os
 import time
 import smtplib
 import schedule
@@ -9,17 +10,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import chromedriver_autoinstaller
+from dotenv import load_dotenv
 
 # Automatically install ChromeDriver
 chromedriver_path = chromedriver_autoinstaller.install()
 
 # Gmail configuration
-GMAIL_USER = "benjikialanda@gmail.com"
-GMAIL_PASSWORD = "dfxj agch hwlm ucof"  # Use an App Password for better security
-NOTIFY_EMAIL = "bndruzi@lakeheadu.ca"
+load_dotenv()
+GMAIL_USER = os.getenv("GMAIL_USER")
+GMAIL_PASSWORD = os.getenv("GMAIL_PASSWORD")
+NOTIFY_EMAIL = os.getenv("NOTIFY_EMAIL")
 
 # Track courses and availability
-tracked_courses = ["Natural Language Processing", "Computer Security", "Data Science"]
+tracked_courses = ["Data Science"]
 course_availability = {course: "Closed" for course in tracked_courses}  # Initial state
 
 def send_email(course, status):
